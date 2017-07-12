@@ -97,6 +97,16 @@ endif
 case version of
 ; Add snapshot_healpix_export=0 for faster runtime if not doing eppsilon
 
+   'sim_mwa_bubble_test': begin
+	dimension=1024
+        instrument='mwa'
+        nfreq_avg=384
+        include_catalog_sources=0
+        snapshot_healpix_export=0
+        bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/light_cone_surfaces.hdf5'
+   end
+
+
    'sim_hera19_point_no-zombie': begin
 	dimension=1024
 	instrument='hera'

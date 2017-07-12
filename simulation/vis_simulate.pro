@@ -1,6 +1,7 @@
 FUNCTION vis_simulate,obs,status_str,psf,params,jones,skymodel,file_path_fhd=file_path_fhd,vis_weights=vis_weights,$
     recalculate_all=recalculate_all,$
     include_eor=include_eor, flat_sigma = flat_sigma, no_distrib = no_distrib, delta_power = delta_power, $
+    bubble_fname=bubble_fname, $
     delta_uv_loc = delta_uv_loc, eor_real_sky = eor_real_sky, $
     include_noise = include_noise, noise_sigma_freq = noise_sigma_freq, $
     include_catalog_sources = include_catalog_sources, source_array=source_array, catalog_file_path=catalog_file_path, $
@@ -50,8 +51,9 @@ FUNCTION vis_simulate,obs,status_str,psf,params,jones,skymodel,file_path_fhd=fil
 
     endfor
     IF ~Keyword_Set(no_save) THEN save, file=init_beam_filepath, beam2_xx_image, beam2_yy_image, obs
-    undefine_fhd, beam2_xx_image, beam2_yy_image,beam_arr
-    
+    undefine_fhd, beam2_xx_image, beam2_yy_image, beam_arr
+
+
     if n_elements(model_image_cube) gt 0 or n_elements(model_uvf_cube) gt 0 or keyword_set(include_eor) then begin
       model_uvf_arr=Ptrarr(n_pol,/allocate)
       for pol_i=0,n_pol-1 do *model_uvf_arr[pol_i]=Complexarr(dimension,elements, n_freq)
@@ -63,6 +65,8 @@ FUNCTION vis_simulate,obs,status_str,psf,params,jones,skymodel,file_path_fhd=fil
         for i=0, n_freq-1 do model_uvf_cube[*,*,i] = fft_shift(FFT(fft_shift(model_image_use[*,*,1]),/inverse)) * (degpix*!DtoR)^2.
         undefine, model_image_use
       endif
+
+      if keyword_set(bubble_fname) then include_eor=0    ;; Don't use the Gaussian EoR sim
 
       if keyword_set(include_eor) then begin
         freq_arr = (*obs.baseline_info).freq
@@ -157,6 +161,16 @@ FUNCTION vis_simulate,obs,status_str,psf,params,jones,skymodel,file_path_fhd=fil
       
     endif ;; end if n_elements(model_image_cube) gt 0 or n_elements(model_uvf_cube) gt 0 or keyword_set(include_eor)
     
+    ;; If bubble file is included, add to the model_uvf_arr
+    IF Keyword_Set(bubble_fname) THEN BEGIN   ; TODO --> Pass along the psf to eor_bubble_sim
+       bubble_uvf = eor_bubble_sim(obs, psf, jones, bubble_fname=bubble_fname)
+       IF Min(Ptr_valid(bubble_uvf)) GT 0 THEN BEGIN
+         IF n_elements(model_uvf_arr) GT 0 then begin
+           FOR pol_i=0,n_pol-1 DO *model_uvf_arr[pol_i] += *bubble_uvf[pol_i];*uv_mask_use
+         endif else model_uvf_arr = Pointer_copy(bubble_uvf)
+       ENDIF
+    ENDIF 
+
     ;; If diffuse model is included, calculate its contribution and add to the source_model_uv_arr
     IF Keyword_Set(diffuse_model) THEN BEGIN
       IF file_test(diffuse_model) EQ 0 THEN diffuse_model=(file_search(diffuse_model+'*'))[0]

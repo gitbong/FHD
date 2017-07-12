@@ -1,5 +1,10 @@
 #!/bin/bash
 
+module load ghostscript
+module load imagemagick/6.6.4
+module load git/2.2.1
+
+
 # Run in an interactive session to run interactive tests of FHD simulation
 
 #idl -args 'threeant_mwa_0' '~/data/alanman/FHD_TEST/' 'test'
@@ -14,4 +19,6 @@
 
 #idl -args 'mwa_galaxy_compressed_0' '~/data/alanman/FHD_TEST'/ 'sim_mwa_diffuse'
 
-idl -args 'semicircle_14m_comp_0' '~/data/alanman/FHD_TEST'/ 'sim_semicircle_point'
+#idl -args 'semicircle_14m_comp_0' '~/data/alanman/FHD_TEST'/ 'sim_semicircle_point'
+
+idl -args 'hera19_platinum_simple_short_0' '~/data/alanman/FHD_TEST'/ 'sim_mwa_bubble_test'
