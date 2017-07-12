@@ -1,7 +1,7 @@
 FUNCTION eor_bubble_sim, obs, psf, jones, bubble_fname=bubble_fname, beam_threshold=beam_threshold, allow_sidelobe_sources=allow_sidelobe_sources
 
 ;Opening an HDF5 file and extract relevant data
-if keyword_set(bubble_fname) THEN hdf5_fname = bubble_fname ELSE hdf5_fname = '/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/light_cone_surfaces.hdf5'
+if keyword_set(bubble_fname) THEN hdf5_fname = bubble_fname ELSE hdf5_fname = '/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/kelvin_light_cone_surfaces.hdf5'
 if not keyword_set(beam_threshold) then beam_threshold = 0.05
 if keyword_set(allow_sidelobe_sources) THEN beam_threshold = 0.01
 
@@ -81,10 +81,10 @@ H5F_CLOSE, f_id
 model_uvf_arr=Ptrarr(n_pol, /allocate)
 t0 = systime(/seconds)
 print, 'Healpix Interpolation'
-resolve_routine, 'healpix_interpolate',/either
-profiler
+;resolve_routine, 'healpix_interpolate',/either
+;profiler
 model_stokes_arr = healpix_interpolate(hpx_arr,obs,nside=nside,hpx_inds=inds_select,/from_kelvin)
-profiler, /report, /code_coverage, filename="/gpfs_home/alanman/000_healpix_interpolate_profile.out"
+;profiler, /report, /code_coverage, filename="/gpfs_home/alanman/000_healpix_interpolate_profile.out"
 print, 'Hpx_interpolate timing: ', systime(/seconds) - t0
 
 
