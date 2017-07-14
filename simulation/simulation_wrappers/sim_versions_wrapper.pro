@@ -5,6 +5,7 @@ except=!except
 !except=0
 heap_gc 
 
+resolve_routine, 'visibility_degrid', /either
 
 ; parse command line args
 compile_opt strictarr
@@ -97,7 +98,7 @@ endif
 case version of
 ; Add snapshot_healpix_export=0 for faster runtime if not doing eppsilon
 
-   'sim_hera19_bubble_test': begin
+   'sim_mwa_bubble_test2': begin
 	dimension=1024
         instrument='hera'
         nfreq_avg=203

@@ -1,14 +1,14 @@
 
 #obsid_list_files/HeraPlatinumFakeShort
 
-#nohup ./sim_pipe_slurm.sh -t -e 'mwa_galaxy_compressed_1' -f  obsid_list_files/MWA128GalaxyTransit -m 50G -n 50 \
-#        -w 03:30:00 -v 'sim_mwa_bubble_test'  > nohup_mwa_eor2.out &
+nohup ./sim_pipe_slurm.sh -t -e 'mwa_galaxy_compressed_0' -f  obsid_list_files/MWA128GalaxyTransit -m 50G -n 50 \
+        -w 03:30:00 -v 'sim_mwa_bubble_test2'  > nohup_mwa_eor2.out &
 
 #nohup ./sim_pipe_slurm.sh -t -e 'mwa_galaxy_compressed_1' -f  obsid_list_files/MWA128GalaxyTransit -m 50G -n 16 \
 #        -w 03:30:00 -v 'sim_mwa_bubble_test'  > nohup_mwa_eor.out &
 
-nohup ./sim_pipe_slurm.sh -t -e 'hera19_platinum_simple_short_1' -f obsid_list_files/Hera19CompressedSimpleShort -m 40G -n 16 \
-       -w 03:30:00 -v 'sim_hera19_bubble_test'  > nohup_hera_bubble.out &
+#nohup ./sim_pipe_slurm.sh -t -e 'hera19_platinum_simple_short_1' -f obsid_list_files/Hera19CompressedSimpleShort -m 40G -n 16 \
+#       -w 03:30:00 -v 'sim_hera19_bubble_test'  > nohup_hera_bubble.out &
 
 #nohup ./sim_pipe_slurm.sh -t -e 'hera19_platinum_simple_short_1' -f obsid_list_files/Hera19CompressedSimpleShort -m 40G -w 03:30:00 -v 'sim_hera19_point_no-zombie'  > nohup_hera_point.out &
 
