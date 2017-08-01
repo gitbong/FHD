@@ -21,4 +21,4 @@ module load git/2.2.1
 
 #idl -args 'semicircle_14m_comp_0' '~/data/alanman/FHD_TEST'/ 'sim_semicircle_point'
 
-idl -args 'hera19_platinum_simple_short_0' '~/data/alanman/FHD_TEST'/ 'sim_mwa_bubble_test'
+idl -args 'mwa_galaxy_compressed_17' '~/data/alanman/FHD_TEST'/ 'sim_mwa_diff_point_bubble'

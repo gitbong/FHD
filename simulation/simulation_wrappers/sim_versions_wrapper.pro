@@ -5,8 +5,6 @@ except=!except
 !except=0
 heap_gc 
 
-resolve_routine, 'visibility_degrid', /either
-
 ; parse command line args
 compile_opt strictarr
 args = Command_Line_Args(count=nargs)
@@ -98,13 +96,38 @@ endif
 case version of
 ; Add snapshot_healpix_export=0 for faster runtime if not doing eppsilon
 
-   'sim_mwa_bubble_test2': begin
+   'sim_hera_bubble': begin
 	dimension=1024
         instrument='hera'
         nfreq_avg=203
+        save_uvf=1
         include_catalog_sources=0
         snapshot_healpix_export=0
-        bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/light_cone_surfaces.hdf5'
+        bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/paper_comp_light_cone_surfaces.hdf5'
+   end
+
+
+   'sim_mwa_bubble': begin
+	dimension=1024
+        instrument='mwa'
+        nfreq_avg=384
+        save_uvf=0
+        include_catalog_sources=0
+;	max_model_sources=7000
+        snapshot_healpix_export=1
+;	diffuse_model=filepath('gsm_150MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+        bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_light_cone_surfaces.hdf5'
+   end
+
+   'sim_mwa_point_bubble': begin
+	dimension=1024
+        instrument='mwa'
+        nfreq_avg=384
+        save_uvf=0
+        include_catalog_sources=1
+	max_model_sources=7000
+        snapshot_healpix_export=1
+        bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_light_cone_surfaces.hdf5'
    end
 
 

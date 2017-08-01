@@ -1,8 +1,12 @@
 
 #obsid_list_files/HeraPlatinumFakeShort
 
-nohup ./sim_pipe_slurm.sh -t -e 'mwa_galaxy_compressed_0' -f  obsid_list_files/MWA128GalaxyTransit -m 50G -n 50 \
-        -w 03:30:00 -v 'sim_mwa_bubble_test2'  > nohup_mwa_eor2.out &
+
+nohup ./sim_pipe_slurm.sh -t -e 'hera19_platinum_simple_short_33' -f obsid_list_files/Hera19CompressedSimpleShort -m 50G -n 16 \
+       -w 03:30:00 -v 'sim_hera_bubble'  > nohup_hera_bubble.out &
+
+nohup ./sim_pipe_slurm.sh -e 'mwa_galaxy_compressed_17' -f  obsid_list_files/MWA128GalTransit -m 50G -n 20 \
+        -w 03:30:00 -v 'sim_mwa_bubble'  > nohup_mwa_eor.out &
 
 #nohup ./sim_pipe_slurm.sh -t -e 'mwa_galaxy_compressed_1' -f  obsid_list_files/MWA128GalaxyTransit -m 50G -n 16 \
 #        -w 03:30:00 -v 'sim_mwa_bubble_test'  > nohup_mwa_eor.out &
