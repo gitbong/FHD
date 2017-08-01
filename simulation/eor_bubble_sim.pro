@@ -1,9 +1,10 @@
-FUNCTION eor_bubble_sim, obs, psf, jones, bubble_fname=bubble_fname, beam_threshold=beam_threshold, allow_sidelobe_sources=allow_sidelobe_sources
+FUNCTION eor_bubble_sim, obs, jones, select_radius=select_radius, bubble_fname=bubble_fname, beam_threshold=beam_threshold, allow_sidelobe_sources=allow_sidelobe_sources
 
 ;Opening an HDF5 file and extract relevant data
-if keyword_set(bubble_fname) THEN hdf5_fname = bubble_fname ELSE hdf5_fname = '/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/kelvin_light_cone_surfaces.hdf5'
+if keyword_set(bubble_fname) THEN hdf5_fname = bubble_fname ELSE hdf5_fname = '/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/light_cone_surfaces.hdf5'
 if not keyword_set(beam_threshold) then beam_threshold = 0.05
 if keyword_set(allow_sidelobe_sources) THEN beam_threshold = 0.01
+if not keyword_set(select_radius) THEN  select_radius = 20     ; Degrees
 
 dimension=obs.dimension
 elements= obs.dimension
@@ -22,27 +23,11 @@ nfreq_hpx = dims[1]
 
 phase_ra = obs.phasera / !RaDeg
 phase_dec = obs.phasedec / !RaDeg
-
-; Identify the healpix pixels within 5\deg of the primary beam
-gcirc, 0, phase_ra, phase_dec, ra_hpx, dec_hpx, dists
-
 n_pol=obs.n_pol
-print, 'Getting beam width'
-t0 = systime(/seconds)
-IF N_Elements(beam_arr) LT (n_pol<2) THEN BEGIN 
-    beam_arr=Ptrarr(n_pol<2)
-    FOR pol_i=0,(n_pol<2)-1 DO beam_arr[pol_i]=Ptr_new(beam_image(psf,obs,pol_i=pol_i,square=0)>0.)
-ENDIF
-beam=fltarr(dimension,elements)
-FOR pol_i=0,(n_pol<2)-1 DO beam+=*beam_arr[pol_i]^2.
-beam=Sqrt(beam/(n_pol<2))
-print, 'Intermediate: ', systime(/seconds)-t0
-beam_primary_i=region_grow(beam,dimension/2.+dimension*elements/2.,threshold=[Max(beam)/2.<beam_threshold,Max(beam)>1.])
-;beam_primary_mask=fltarr(dimension,elements) & beam_primary_mask[beam_primary_i]=1.
-print, "Beam mask time: ", systime(/seconds) - t0
-boundary=find_boundary(beam_primary_i,xsize=dimension, ysize=elements,perim_area=perim_area)
-radius_rad = (obs.degpix*sqrt(perim_area)/2 + 3.)/!RaDeg
 
+; Identify the healpix pixels within select_radius of the primary beam
+gcirc, 0, phase_ra, phase_dec, ra_hpx, dec_hpx, dists
+radius_rad = select_radius/!RaDeg
 print, 'selection radius (degrees) ', radius_rad*!RaDeg
 inds_select = where(dists LT radius_rad)
 npix_sel =  n_elements(inds_select)
@@ -106,7 +91,6 @@ FOR fi=0, obs.n_freq-1 do begin    ; 30 seconds for 203 channels
 
 ENDFOR
 
-; TODO ---> Check the correct form of the UVF cube and convert model_uvf_arr to that before returning.
 ;model_uvf_arr should be a pointer array of shape (n_pol), each pointing to a ComplexArray of shape (dimension, elements, n_freq)
 
 return, model_uvf_arr
