@@ -78,7 +78,8 @@ if keyword_set(model_delay_filter) then begin
     zenra:obs.zenra,zendec:obs.zendec,obsx:obs.obsx,obsy:obs.obsy,zenx:obs.zenx,zeny:obs.zeny,$
     phasera:obs.phasera,phasedec:obs.phasedec,orig_phasera:obs.orig_phasera,orig_phasedec:obs.orig_phasedec,$
     n_pol:obs.n_pol,n_tile:obs.n_tile,n_tile_flag:obs.n_tile_flag,n_freq:Long(n_freq),n_freq_flag:0L,n_time:obs.n_time,n_time_flag:0L,$
-    n_vis:obs.n_vis,n_vis_in:obs.n_vis_in,n_vis_raw:obs.n_vis_raw,nf_vis:obs.nf_vis,beam_integral:obs.beam_integral,pol_names:obs.pol_names,$
+    n_vis:obs.n_vis,n_vis_in:obs.n_vis_in,n_vis_raw:obs.n_vis_raw,nf_vis:obs.nf_vis,beam_integral:obs.beam_integral,beam2_integral:obs.beam2_integral,$
+    pol_names:obs.pol_names,$
     jd0:obs.jd0,max_baseline:obs.max_baseline,min_baseline:obs.min_baseline,delays:obs.delays,lon:obs.lon,lat:obs.lat,alt:obs.alt,$
     freq_center:obs.freq_center,freq_res:obs.freq_res,time_res:obs.time_res,astr:obs.astr,alpha:obs.alpha,pflag:obs.pflag,cal:obs.cal,$
     residual:0,vis_noise:obs.vis_noise,baseline_info:Ptr_new(arr),meta_data:obs.meta_data,meta_hdr:obs.meta_hdr,$
