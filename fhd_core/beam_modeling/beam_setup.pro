@@ -24,14 +24,14 @@ IF Keyword_set(transfer_psf) then begin
     if ~file_test(transfer_psf + '/' + obs.obsname + '_obs.sav') AND ~file_test(file_dirname(transfer_psf) $
       + '/metadata/' + obs.obsname + '_obs.sav') then $
       message, transfer_psf + '/' + obs.obsname + '_obs.sav or ' + file_dirname(transfer_psf) + $
-      '/metadata/' + obs.obsname + '_obs.sav not found during psf transfer. Beam2_integral needed in PS.'
+      '/metadata/' + obs.obsname + '_obs.sav not found during psf transfer. primary beam_sq_area needed in PS.'
       
     psf = getvar_savefile(transfer_psf + '/' + obs.obsname + '_beams.sav','psf')
     if file_test(transfer_psf + '/' + obs.obsname + '_obs.sav') then $
       obs_restore = getvar_savefile(transfer_psf + '/' + obs.obsname + '_obs.sav','obs')
     if file_test(file_dirname(transfer_psf) + '/metadata/' + obs.obsname + '_obs.sav') then $
       obs_restore = getvar_savefile(file_dirname(transfer_psf) + '/metadata/' + obs.obsname + '_obs.sav','obs')
-    obs.beam2_integral = pointer_copy(obs_restore.beam2_integral)
+    obs.primary_beam_sq_area = pointer_copy(obs_restore.primary_beam_sq_area)
     
     RETURN,psf
 ENDIF
@@ -62,8 +62,8 @@ IF Keyword_Set(swap_pol) THEN pol_arr=[[1,1],[0,0],[1,0],[0,1]] ELSE pol_arr=[[0
 psf_image_dim=psf_dim*psf_image_resolution*psf_intermediate_res ;use a larger box to build the model than will ultimately be used, to allow higher resolution in the initial image space beam model
 kbinsize=obs.kpix
 kbinsize_superres=kbinsize/psf_resolution
-beam_integral=Ptrarr(n_pol,/allocate)
-beam2_integral=Ptrarr(n_pol,/allocate)
+primary_beam_area=Ptrarr(n_pol,/allocate)
+primary_beam_sq_area=Ptrarr(n_pol,/allocate)
 
 IF N_Elements(beam_mask_threshold) EQ 0 THEN beam_mask_threshold=1E2
 
@@ -103,8 +103,8 @@ group_arr=Lonarr(n_pol,nfreq_bin,nbaselines)-1
 t_beam_int=0.
 t_beam_power=0.
 FOR pol_i=0,n_pol-1 DO BEGIN
-    *beam_integral[pol_i]=Fltarr(n_freq)
-    *beam2_integral[pol_i]=Fltarr(n_freq)
+    *primary_beam_area[pol_i]=Fltarr(n_freq)
+    *primary_beam_sq_area[pol_i]=Fltarr(n_freq)
     ant_pol1=pol_arr[0,pol_i]
     ant_pol1x=Abs(1-ant_pol1)
     ant_pol2=pol_arr[1,pol_i]
@@ -159,7 +159,7 @@ FOR pol_i=0,n_pol-1 DO BEGIN
             t_beam_power+=Systime(1)-t_bpwr
             t_bint=Systime(1)
             ;divide by psf_resolution^2 since the FFT is done at a different resolution and requires a different normalization
-            beam_int+=baseline_group_n*Total(Abs(psf_base_superres),/double)/psf_resolution^2. 
+            beam_int+=baseline_group_n*Total(psf_base_superres,/double)/psf_resolution^2. 
             beam2_int+=baseline_group_n*Total(Abs(psf_base_superres)^2,/double)/psf_resolution^2. 
             n_grp_use+=baseline_group_n
             t_beam_int+=Systime(1)-t_bint
@@ -177,13 +177,13 @@ FOR pol_i=0,n_pol-1 DO BEGIN
         beam2_int*=weight_invert(n_grp_use)/kbinsize^2. ;factor of kbinsize^2 is FFT units normalization
         beam_int*=weight_invert(n_grp_use)/kbinsize^2.
         fi_use=where(freq_bin_i EQ freq_i,nf_use)
-        FOR fi1=0L,nf_use-1 DO (*beam2_integral[pol_i])[fi_use[fi1]]=Float(beam2_int)
-        FOR fi1=0L,nf_use-1 DO (*beam_integral[pol_i])[fi_use[fi1]]=Float(beam_int)
+        FOR fi1=0L,nf_use-1 DO (*primary_beam_sq_area[pol_i])[fi_use[fi1]]=Float(beam2_int)
+        FOR fi1=0L,nf_use-1 DO (*primary_beam_area[pol_i])[fi_use[fi1]]=Float(beam_int)
     ENDFOR
 ENDFOR
 
-FOR pol_i=0,n_pol-1 DO obs.beam_integral[pol_i]=beam_integral[pol_i]
-FOR pol_i=0,n_pol-1 DO obs.beam2_integral[pol_i]=beam2_integral[pol_i]
+FOR pol_i=0,n_pol-1 DO obs.primary_beam_area[pol_i]=primary_beam_area[pol_i]
+FOR pol_i=0,n_pol-1 DO obs.primary_beam_sq_area[pol_i]=primary_beam_sq_area[pol_i]
 print,t_ant,t_beam_power,t_beam_int
 
 ;higher than necessary psf_dim is VERY computationally expensive, but we also don't want to crop the beam if there is real signal
