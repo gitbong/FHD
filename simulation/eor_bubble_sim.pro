@@ -26,11 +26,9 @@ phase_dec = obs.phasedec / !RaDeg
 n_pol=obs.n_pol
 
 ; Identify the healpix pixels within select_radius of the primary beam
-gcirc, 0, phase_ra, phase_dec, ra_hpx, dec_hpx, dists
-radius_rad = select_radius/!RaDeg
-print, 'selection radius (degrees) ', radius_rad*!RaDeg
-inds_select = where(dists LT radius_rad)
-npix_sel =  n_elements(inds_select)
+ang2vec,obs.obsdec,obs.obsra,cen_coords,/astro
+Query_disc,nside,cen_coords,select_radius,inds_select,npix_sel,/deg
+print, 'selection radius (degrees) ', select_radius
 print, "Npix_selected: ", npix_sel
 
 ; Limit the range of frequencies in the uvf cube to the range of the obs
