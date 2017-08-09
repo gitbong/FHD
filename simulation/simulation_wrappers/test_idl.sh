@@ -21,4 +21,4 @@ module load git/2.2.1
 
 #idl -args 'semicircle_14m_comp_0' '~/data/alanman/FHD_TEST'/ 'sim_semicircle_point'
 
-idl -args 'mwa_galaxy_compressed_17' '~/data/alanman/FHD_TEST'/ 'sim_mwa_diffuse'
+idl -args 'mwa_galaxy_compressed_17' '~/data/alanman/FHD_TEST'/ 'sim_mwa_hdf5_points'

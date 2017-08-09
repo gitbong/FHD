@@ -96,11 +96,46 @@ endif
 case version of
 ; Add snapshot_healpix_export=0 for faster runtime if not doing eppsilon
 
+
+   'sim_hera_bubble_gauss': begin
+	dimension=1024
+        instrument='hera'
+        nfreq_avg=203
+        save_uvf=0
+        include_catalog_sources=0
+        snapshot_healpix_export=0
+        bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/hera_gaussian.hdf5'
+   end
+
+   'sim_mwa_bubble_gauss': begin
+	dimension=1024
+        instrument='mwa'
+        nfreq_avg=384
+        save_uvf=0
+        include_catalog_sources=0
+;	max_model_sources=7000
+        snapshot_healpix_export=1
+;	diffuse_model=filepath('gsm_150MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+        bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_gaussian.hdf5'
+   end
+
+   'sim_mwa_hdf5_points': begin
+	dimension=1024
+        instrument='mwa'
+        nfreq_avg=384
+        save_uvf=0
+        include_catalog_sources=0
+;	max_model_sources=7000
+        snapshot_healpix_export=0
+;	diffuse_model=filepath('gsm_150MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+        bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_points.hdf5'
+   end
+
    'sim_hera_bubble': begin
 	dimension=1024
         instrument='hera'
         nfreq_avg=203
-        save_uvf=1
+        save_uvf=0
         include_catalog_sources=0
         snapshot_healpix_export=0
         bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/paper_comp_light_cone_surfaces.hdf5'
