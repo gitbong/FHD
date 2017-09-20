@@ -326,7 +326,8 @@ case version of
 ;	set_sidelobe_keywords=1
    end
 
-   'sim_hera19_point_fine_comp_1hour': begin
+   ;'sim_hera19_point_fine_comp_1hour': begin
+   'sim_hera19_point_fine_subgp-test': begin
 	dimension=1024
 	instrument='hera'
 	max_model_sources=10000

@@ -68,9 +68,9 @@
 
 #nohup ./sim_pipe_slurm.sh -t -s 'hera19_platinum_short_1' -e 'hera19_platinum_short_33' -f obsid_list_files/HeraPlatinumFakeShort -m 50G -w 03:30:00 -v 'sim_hera19_diffuse_kelvin-convert'  > nohup_hera_diffuse.out &
 
-#nohup ./sim_pipe_slurm.sh -t -e 'hera19_platinum_short_33' -f obsid_list_files/HeraPlatinumFakeShort -m 50G -w 03:30:00 -v 'sim_hera19_point_fine_comp_1hour'  > nohup_hera_point.out &
+nohup ./sim_pipe_slurm.sh -t -e 'hera19_platinum_short_1' -f obsid_list_files/HeraPlatinumFakeShort -m 50G -w 03:30:00 -v 'sim_hera19_point_fine_subgp-test'  > nohup_hera_point.out &
 
-nohup ./sim_pipe_slurm.sh -t -f obsid_list_files/MWA128GalTransit -m 50G -w 03:30:00 -v 'sim_mwa_diffuse_v2'  > nohup_mwa_diffuse.out &
+#nohup ./sim_pipe_slurm.sh -t -f obsid_list_files/MWA128GalTransit -m 50G -w 03:30:00 -v 'sim_mwa_diffuse_v2'  > nohup_mwa_diffuse.out &
 
 #nohup ./sim_pipe_slurm.sh -t -f obsid_list_files/EWBase_14m_plat -m 30G -w 03:30:00 -v 'sim_ewbase_hera_diffuse'  > nohup_14m_ewbase_0.out &
 
