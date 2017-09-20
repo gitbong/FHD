@@ -2,18 +2,26 @@
 #obsid_list_files/HeraPlatinumFakeShort
 
 
-nohup ./sim_pipe_slurm.sh -e '1061314472' -f  obsid_list_files/MWAGolden -m 60G -n 32 \
-        -w 03:30:00 -v 'sim_mwa_hdf5_points'  > nohup_mwa_hdf5point2.out &
+#nohup ./sim_pipe_slurm.sh -e '1061314472' -f  obsid_list_files/MWAGolden -m 60G -n 32 \
+#        -w 03:30:00 -v 'sim_mwa_hdf5_points'  > nohup_mwa_hdf5point2.out &
 
 #nohup ./sim_pipe_slurm.sh -e 'mwa_galaxy_compressed_17' -f  obsid_list_files/MWA128GalTransit -m 60G -n 32 \
 #        -w 03:30:00 -v 'sim_mwa_hdf5_points'  > nohup_mwa_hdf5point.out &
 
-#nohup ./sim_pipe_slurm.sh -e 'mwa_galaxy_compressed_17' -f  obsid_list_files/MWA128GalTransit -m 60G -n 32 \
-#        -w 03:30:00 -v 'sim_mwa_bubble_gauss'  > nohup_mwa_bubblegauss.out &
-#
-#nohup ./sim_pipe_slurm.sh -t -e 'hera19_platinum_short_33' -f obsid_list_files/HeraPlatinumFakeShort -m 50G -n 16 \
-#       -w 03:30:00 -v 'sim_hera_bubble_gauss'  > nohup_hera_bubble.out &
+#nohup ./sim_pipe_slurm.sh -t -f obsid_list_files/Hera19_24hour -m 50G -w 03:30:00 -v 'sim_hera_diffuse_fine_comp_24hour'  > nohup_hera_diffuse.out &
 
+   # -e '1061314472' -f    obsid_list_files/MWAGolden -m 60G -n 32 \
+#nohup ./sim_pipe_slurm.sh -t  -f  missing  -m 60G -n 32 \
+#        -w 05:30:00 -v 'sim_mwa_lin_bubble'  > nohup_mwa_lin_bubble.out &
+
+#nohup ./sim_pipe_slurm.sh -e '1061314472' -f  obsid_list_files/MWAGolden -m 60G -n 32 \
+#        -w 03:30:00 -v 'sim_mwa_bubble_gauss'  > nohup_mwa_gauss.out &
+
+#nohup ./sim_pipe_slurm.sh -t -e 'hera19_platinum_short_33' -f obsid_list_files/HeraPlatinumFakeShort -m 50G -n 16 \
+#       -w 03:30:00 -v 'sim_hera_lin_bubble'  > nohup_hera_bubblelin.out &
+
+#nohup ./sim_pipe_slurm.sh -t  -f obsid_list_files/Hera19_24hour -m 40G -n 16 \
+#      -w 03:30:00 -v 'sim_hera_bubble_24hour_gauss'  > nohup_hera_bubble.out &
 
 
 #nohup ./sim_pipe_slurm.sh -e 'mwa_galaxy_compressed_17' -f  obsid_list_files/MWA128GalTransit -m 60G -n 32 \
@@ -62,7 +70,7 @@ nohup ./sim_pipe_slurm.sh -e '1061314472' -f  obsid_list_files/MWAGolden -m 60G 
 
 #nohup ./sim_pipe_slurm.sh -t -e 'hera19_platinum_short_33' -f obsid_list_files/HeraPlatinumFakeShort -m 50G -w 03:30:00 -v 'sim_hera19_point_fine_comp_1hour'  > nohup_hera_point.out &
 
-#nohup ./sim_pipe_slurm.sh -t -e 'mwa_galaxy_compressed_1' -f  obsid_list_files/MWA128GalaxyTransit -m 50G -w 03:30:00 -v 'sim_mwa_diffuse_new-FHD'  > nohup_mwa_diffuse.out &
+nohup ./sim_pipe_slurm.sh -t -f obsid_list_files/MWA128GalTransit -m 50G -w 03:30:00 -v 'sim_mwa_diffuse_v2'  > nohup_mwa_diffuse.out &
 
 #nohup ./sim_pipe_slurm.sh -t -f obsid_list_files/EWBase_14m_plat -m 30G -w 03:30:00 -v 'sim_ewbase_hera_diffuse'  > nohup_14m_ewbase_0.out &
 

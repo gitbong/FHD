@@ -215,7 +215,7 @@ nobs=${#good_obs_list[@]}
 
 
 #### !!! The -w flag chooses a specific node.
-message=$(sbatch --mem=$mem -t ${wallclock_time} -n ${ncores} --array=0-$(( $nobs - 1 )) --export=ncores=$ncores,outdir=$outdir,version=$version,thresh=$thresh -o ${outdir}/fhd_${version}/grid_out/array_sim-%A_%a.out -e ${outdir}/fhd_${version}/grid_out/array_sim-%A_%a.err ${FHDpath}simulation/simulation_wrappers/eor_simulation_slurm_job.sh ${good_obs_list[@]})
+message=$(sbatch --mem=$mem -t ${wallclock_time} -n ${ncores} --array=0-$(( $nobs - 1 ))%10 --export=ncores=$ncores,outdir=$outdir,version=$version,thresh=$thresh -o ${outdir}/fhd_${version}/grid_out/array_sim-%A_%a.out -e ${outdir}/fhd_${version}/grid_out/array_sim-%A_%a.err ${FHDpath}simulation/simulation_wrappers/eor_simulation_slurm_job.sh ${good_obs_list[@]})
 
 #echo $message
 
@@ -382,7 +382,7 @@ if [ "$rerun_flag" -ne 1 ];then
 
    nobs=${#resubmit_list[@]}
 
-   message=$(sbatch --mem=$mem -t ${wallclock_time} -n ${ncores} --array=0-$(( $nobs - 1 )) --export=ncores=$ncores,outdir=$outdir,version=$version,thresh=$thresh -o ${outdir}/fhd_${version}/grid_out/array_sim-%A_%a.out -e ${outdir}/fhd_${version}/grid_out/array_sim-%A_%a.err ${FHDpath}Observations/eor_simulation_slurm_job.sh ${resubmit_list[@]})
+   message=$(sbatch --mem=$mem -t ${wallclock_time} -n ${ncores} --array=0-$(( $nobs - 1 ))%10 --export=ncores=$ncores,outdir=$outdir,version=$version,thresh=$thresh -o ${outdir}/fhd_${version}/grid_out/array_sim-%A_%a.out -e ${outdir}/fhd_${version}/grid_out/array_sim-%A_%a.err ${FHDpath}Observations/eor_simulation_slurm_job.sh ${resubmit_list[@]})
    message=($message)
    id=`echo ${message[3]}`
    while [ `myq | grep $id | wc -l` -ge 1 ]; do

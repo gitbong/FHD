@@ -37,7 +37,7 @@ export_images = 1 ; toggles the output of images from fhd_quickview
 save_visibilities= 1
 model_visibilities=1
 make_regular_bls=0
-save_antenna_model=1
+save_antenna_model=0
 snapshot_healpix_export = 1
 ps_export=1
 split_ps_export=1
@@ -96,6 +96,16 @@ endif
 case version of
 ; Add snapshot_healpix_export=0 for faster runtime if not doing eppsilon
 
+   'sim_hera_diffuse_fine_comp_24hour': begin
+	dimension=1024
+	diffuse_model=filepath('gsm_150MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
+	instrument='hera'
+        include_catalog_sources=0
+;	sources_file_name='GLEAM_EGC_catalog'
+	nfreq_avg=203
+	beam_model_version=2
+;	set_sidelobe_keywords=1
+   end
 
    'sim_hera_bubble_gauss': begin
 	dimension=1024
@@ -126,23 +136,34 @@ case version of
         save_uvf=0
         include_catalog_sources=0
 ;	max_model_sources=7000
-        snapshot_healpix_export=0
+        snapshot_healpix_export=1
 ;	diffuse_model=filepath('gsm_150MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
         bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_points.hdf5'
    end
 
-   'sim_hera_bubble': begin
+
+   'sim_hera_bubble_24hour_gauss': begin
 	dimension=1024
         instrument='hera'
         nfreq_avg=203
         save_uvf=0
         include_catalog_sources=0
         snapshot_healpix_export=0
-        bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/paper_comp_light_cone_surfaces.hdf5'
+        bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/hera_gaussian.hdf5'
+   end
+
+   'sim_hera_lin_bubble': begin
+	dimension=1024
+        instrument='hera'
+        nfreq_avg=203
+        save_uvf=0
+        include_catalog_sources=0
+        snapshot_healpix_export=0
+        bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/paper_comp_lin_light_cone_surfaces.hdf5'
    end
 
 
-   'sim_mwa_bubble': begin
+   'sim_mwa_lin_bubble': begin
 	dimension=1024
         instrument='mwa'
         nfreq_avg=384
@@ -151,7 +172,7 @@ case version of
 ;	max_model_sources=7000
         snapshot_healpix_export=1
 ;	diffuse_model=filepath('gsm_150MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
-        bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_light_cone_surfaces.hdf5'
+        bubble_fname='/users/alanman/data/alanman/BubbleCube/TiledHpxCubes/mwa_lin_light_cone_surfaces.hdf5'
    end
 
    'sim_mwa_point_bubble': begin
@@ -315,11 +336,13 @@ case version of
 ;	set_sidelobe_keywords=1
    end
 
-   'sim_mwa_diffuse_new-FHD': begin
+   'sim_mwa_diffuse_v2': begin
 	diffuse_model=filepath('gsm_150MHz.sav',root=rootdir('FHD'),subdir='catalog_data')
-	dimension=512
+	dimension=1024
 	instrument='mwa'
         include_catalog_sources=0
+        nfreq_avg = 384
+	snapshot_healpix_export=0
 ;	sources_file_name='GLEAM_EGC_catalog'
 ;	max_model_sources=0
     end
