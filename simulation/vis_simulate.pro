@@ -51,7 +51,7 @@ FUNCTION vis_simulate,obs,status_str,psf,params,jones,skymodel,file_path_fhd=fil
       ENDELSE
 
     endfor
-    IF ~Keyword_Set(no_save) THEN save, file=init_beam_filepath, beam2_xx_image, beam2_yy_image, obs
+;    IF ~Keyword_Set(no_save) THEN save, file=init_beam_filepath, beam2_xx_image, beam2_yy_image, obs
     undefine_fhd, beam2_xx_image, beam2_yy_image, beam_arr
 
 
