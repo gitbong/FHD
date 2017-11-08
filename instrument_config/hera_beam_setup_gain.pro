@@ -34,6 +34,36 @@ Jones_matrix=Ptrarr(n_ant_pol,n_ant_pol,nfreq_bin)
 
 ;build the instrumental pol Jones matrix
 CASE beam_model_version OF
+    3: BEGIN
+     ; Nicolas Fagnoni power beam.
+     fname = filepath("NF_HERA_Beams.beamfits", root=rootdir("FHD"), sub='instrument_config')
+     ; Header is a string array of all header variables and values.
+     ; dat has a shape (npix, nchan, nfeeds)
+     ; pols = -5,-6 = XX, YY
+     ; Polarization will not be handled correctly this way (need full e-field), but as an approximation set XX/YY components from the power beam and let XY/YX components be zero
+     dat = READFITS(fname, header)
+     beamtype = sxpar(header,'BTYPE')
+     coordsys = sxpar(header, 'COORDSYS')
+     n_hpx = uint(sxpar(header,'NAXIS1'))
+     nfreq = uint(sxpar(header,'NAXIS2'))
+     nside = npix2nside(n_hpx)
+     freq0 = float(sxpar(header,'CRVAL2'))
+     df = float(sxpar(header,'CDELT2'))
+     hera_frequency_array = findgen(nfreq)*df + freq0
+     Jones_matrix=Ptrarr(n_ant_pol,n_ant_pol,nfreq_bin)
+     hpx_inds = Lindgen(n_hpx)
+     hera_beam_in = dat ;reform(dat,n_ant_pol,nfreq,n_hpx)
+     FOR pol_i=0,1 DO BEGIN
+            hera_beam_interp=Fltarr(n_hpx,nfreq_bin)
+            FOR hpx_i=0L,n_hpx-1 DO hera_beam_interp[hpx_i,*]=Interpol(reform(hera_beam_in[hpx_i,*,pol_i]),hera_frequency_array,freq_center)
+            hera_beam_interp_arr=Ptrarr(nfreq_bin)
+            FOR freq_i=0,nfreq_bin-1 DO hera_beam_interp_arr[freq_i]=Ptr_new(hera_beam_interp[*,freq_i])
+            hera_beam_grid_arr=healpix_interpolate(hera_beam_interp_arr,obs,nside=nside,Jdate_use=Jdate_use,coord_sys='equatorial')
+            FOR freq_i=0,nfreq_bin-1 DO Jones_matrix[pol_i,pol_i,freq_i]=Ptr_new(Interpolate(*hera_beam_grid_arr[freq_i],xvals_interp,yvals_interp)*horizon_mask)
+            FOR freq_i=0,nfreq_bin-1 DO Jones_matrix[pol_i,(pol_i+1) mod 2,freq_i]=Ptr_new(Fltarr(psf_image_dim,psf_image_dim))
+     ENDFOR
+
+    END
     ;Beams created by Dave Deboer in 2016
     2: BEGIN
     
