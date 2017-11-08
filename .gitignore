@@ -175,3 +175,8 @@ catalog_data/PAPER_PicA_calibration_catalog1.sav
 observations/debug_test.pro
 observations/eor0_sidelobe_test.pro
 observations/tv_test.pro
+
+##Oscar FHD
+simulation/simulation_wrappers/sim_versions_wrapper.pro
+simulation/simulation_wrappers/submit_sims.sh
+simulation/simulation_wrappers/test_idl.sh
