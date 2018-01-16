@@ -154,6 +154,7 @@ else
    echo Output located at ${outdir}/fhd_${version}_${sim_id}
    fhddir=${outdir}/fhd_${version}_${sim_id}
 fi
+<<<<<<< HEAD
 
 #Read the obs file and put into an array, skipping blank lines if they exist.
 # If the file doesn't exist, treat the obs_file_name as a single obsid
@@ -176,6 +177,30 @@ else
     min=${obs_id_array[0]}
 fi
 
+=======
+
+#Read the obs file and put into an array, skipping blank lines if they exist.
+# If the file doesn't exist, treat the obs_file_name as a single obsid
+if [ ! -e "$obs_file_name" ]
+then
+     obs_id_array=($obs_file_name)
+     max=$obs_file_name
+     min=$obs_file_name 
+else
+     i=0
+     while read line
+     do
+        if [ ! -z "$line" ]; then
+           obs_id_array[$i]=$line
+           i=$((i + 1))
+        fi
+     done < "$obs_file_name"
+    ##Find the max and min of the obs id array
+    max=${obs_id_array[$((i-1))]}
+    min=${obs_id_array[0]}
+fi
+
+>>>>>>> b58017f03bf56835797065401762dec48d58425f
 #
 #
 #If minimum not specified, start at minimum of obs_file
@@ -258,7 +283,6 @@ if [ $firstpass_only -eq 1 ]; then
 	cd $curdir
 	exit 0
 fi
-
 
 # Submit a job to convert model visibilities to uvfits and MIRIAD formats
 curdir=`pwd -P`
