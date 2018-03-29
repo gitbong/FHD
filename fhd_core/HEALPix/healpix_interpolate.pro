@@ -92,8 +92,8 @@ FOR map_i=0,n_map-1 DO BEGIN
             ele_out/2. - elements_hpx/2.: ele_out/2. + elements_hpx/2. -1] = model_uv
     ENDELSE
     ; Scaling accounts for the change in grid size
-    scale = (dimension_hpx*elements_hpx)/float(dim_out*ele_out)
-    model_img = scale*FFT(fft_shift(model_uv_full),/inverse)
+    scale = sqrt((dimension_hpx*elements_hpx)/float(dim_out*ele_out))
+    model_img = FFT(fft_shift(model_uv_full*scale),/inverse)
     print, 'Scale=',scale
     print, 'Variance of resized image: ', variance(model_img)
 
