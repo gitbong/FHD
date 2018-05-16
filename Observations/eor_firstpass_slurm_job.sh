@@ -9,16 +9,17 @@
 # #SBATCH --mail-type=ALL
 # #SBATCH --mail-user=adam_lanman@brown.edu
 
-
 module load ghostscript
-module load imagemagick/6.6.4
-module load git/2.2.1
+module load imagemagick/7.0.7
+module load git/2.10.2
+module load idl
+shopt -s expand_aliases; source $IDL/envi53/bin/envi_setup.bash
 
 obsids=("$@")
 obs_id=${obsids[$SLURM_ARRAY_TASK_ID]}
 
 #/usr/local/bin/idl -IDL_DEVICE ps -quiet -IDL_CPU_TPOOL_NTHREADS $ncores -e firstpass_versions_wrapper -args $obs_id $outdir $version 
-/usr/local/bin/idl -IDL_DEVICE ps -quiet -IDL_CPU_TPOOL_NTHREADS $ncores -e ael_fhd_versions -args $obs_id $outdir $version 
+idl -IDL_DEVICE ps -quiet -IDL_CPU_TPOOL_NTHREADS $ncores -e ael_fhd_versions -args $obs_id $outdir $version 
 
 if [ $? -eq 0 ]
 then
