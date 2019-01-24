@@ -51,7 +51,6 @@ y_frac=1.-(yv_hpx-Floor(yv_hpx))
 IF Keyword_Set(from_kelvin) THEN pixel_area_cnv=convert_kelvin_jansky(1.,nside=nside,freq=obs.freq_center) $
     ELSE pixel_area_cnv=((obs.degpix*!DtoR)^2.)/(4.*!Pi/n_hpx) ; (steradian/new pixel)/(steradian/old pixel)
 ;pixel_area_cnv=1.
-pixel_area_cnv = 1./pixel_area_cnv
 
 area_ratio=(4.*!Pi/n_hpx)/((obs.degpix*!DtoR)^2.)
 IF area_ratio GT 1 THEN BEGIN
